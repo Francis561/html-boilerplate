@@ -1,0 +1,534 @@
+/* NOTE difference between the (*) and :root selectors is that :root only selects the main DOM container without children elements */
+
+/* css pseudo elements 
+* Usually select elements which are not directly specified in the DOM
+::after
+::before
+::first-letter
+::first-line
+::selection
+::slotted(element-name)
+*/
+
+/* pseudo selectors=> appended to the end of another element name often a parent container 
+*   usually select an existing element in the DOM
+:first-child/:last-child=>selecting very first/last element from a list of children in a parent
+:nth-child()=>selecting series of elements belonging to a row/column in a list of elements or even an HTML table
+:link=> same as href
+:visited=>slects visited links in the current browser
+:hover=>selects link element hovered over by a mouse
+:active=>selects an active or pressed link
+:focus=>selects elements with current focus including links,input and textarea elements
+:enabled=>enabled elements can be activated(selected,clicked  on,typed into) or accept focus
+:disabled=>element that cant be activated or accept focus(checkbox or radio buttons)
+:default=>selects the default item in a form(checkbox or radio button)
+:indeterminate=>checkbox or radio button that has not been assigned a default state
+:required selects input with required attribute
+<input type = "text" required/>
+:optional=>selects input without the required attribute
+:read-only& :read-write=> selects elements with attributes of readonly and disabled
+:root=>selects root DOM element(<html/> tag)
+:only-of-type=>selects elements with only one particular attribute
+:first-of-type=>selects element(s) of only one particular attribute among its related ones
+:last-of-type=>selects one element of the last type of a particular attribute among its related ones
+:nth-of-type(2,3,1)=>selects one element belonging to a particular row/coumn in a list of elements of similar type or even html table
+:nth-last-child()=>last of child elements of that particular type
+:nth-child(odd)=>odd child elements of the particular type
+:nth-child(even)=>even child elements of the particular type
+:not()=>excludes out selection of some elements
+:only-child=>selects the only child element of 
+*PSEUDO-SELECTORS can be nested
+*/
+
+/* CSS-BOX MODEL*
+*Notes*
+* Positioning elements maybe affected by its position in the parent container
+* 5 position types i.e static(default for all elements), relative,absolute,fixed,sticky
+    *static*
+     -by default position is set to static
+     -elements appear in the order they were specified in ur    HTML doc
+     -not affected by top,bottom,left,right properties even if given dimensions
+
+    *relative*
+      -have a top and left offset relative to their originl locatiom
+      -can also have right and bottom offsets
+      =>using 'relative' position works well  for creating offsets when working with text though  more proper to use padding/margin properties to attain the same effect
+      -not to be used when arranging blocking elements e.g images
+
+    *absolute*
+      -used for pixel-pperfect placement inside a parent container
+      -"collapse" parent element if no  dimensions are supplied to the parent container
+      -if parent's width and height are not explicitly specified, applying it/fixed to its only child will collapse its dimensions to 0x0 but child will still be positioned relative to it
+      -absolutely positioned elements do not populate their parent container with content
+      -they float above parent, while still retaining position relative to their container element
+      -when parent's dimensions are explicitly set,there is no effect on child with position:absolute, its pivot point is located at 0x0 of the parent
+      -inorder for elements with position:absolute to be aligned relative to the parent, the parent's position property must not be set to static(default)
+      -you can use top,left,bottom&right to change starting point from which the offset is calculated
+      -cant use both left&right at the same 4 top&bottom
+      -can use negative values for this
+
+    *fixed*
+      -works in the same way as absolute.except-wont respond to scrollbar
+    
+    *sticky*
+      -used for creating floating navigation bars
+      -u can add webkit-sticky for compatibility with webkit-based browsers (such as chrome)
+*/
+
+/* WORKING WITH TEXT
+   *font-family*
+     -can specify more fonts by separation of a comma;if the first font is not available/cant be rendered by a browser, css will fall back to the next available fontt on the list
+
+   *font-size*
+     -can be specified  using pt,px,em or %
+     -setting it to 100% is the same as 12pt,16px,or 1em
+
+    *text-align*
+     -text-align:left is the default
+
+    *text-align-last*
+     -same as text-align except that it refers to only the last line of the paragraph
+
+     *writing-mode/textcombine-upright*
+      -when this feature is set to vertical,produces text positioned vertically
+
+    *overflow*
+      -when text is nested within a parent element, u can makle it scrollable by applying overflow:scroll to its parent
+
+    *Skip Ink*
+      -can be used to superimpose text over the underline
+    
+    *Text-rendering*
+      -using the 'optimizeSpeed' value in this property is knwn to improve rendering speed of large blocks of text
+      -using optimizeLegibility shifts words closer in some character combinations
+
+    *Text indent*
+      -resposnsible for aligning ur text
+    
+    *Text Orientation*
+      -controlled by text-orientation property
+      -useful for rendering text in different languages where the flow of text can either go from right->left or from top->down
+      -often used with writing-mode property
+      -on svg elements, 'use-glyph-orintation' replaces deprecated SVG properties glyp-orientation-vertical&glyph-orientation-horizontal
+      -together with 'writing-mode:vertical-rl(right-left)/writing-mode:vertical-lr(right-left)' the text-orientation property can be used to align in pretty much any direction
+      =>*to center text vertically in any element, set its line-height with line-height:60px to the height of the element*
+
+    *Ligatures*
+      -words with ability to connect at a particular point
+      -to use this feature, type font-feature-settings: "liga" 1; or font-feature-settings: "liga" on
+
+    *Font-style/Font-weight*
+      -are text effects for (italic,bold,oblique)
+    
+    =>*text-align and line-height properties are often the best suitable for centering text inside buttons*<=
+
+    *Text-Shadow*
+     -u can add a shadow to text using the text-shadow property
+     -this property takes the offset on both x&y-axis, blur radius and shadow color
+     -e.g "text-shadow: 5px 6px 3px #0000ff" where:5px is the offset on x-axis, 6px is offset on y-axis, 3px-blur radius and #0000ff is the shadow color
+
+    *Text-anchor*
+     -using this property helps us to set the center point of the text, around which it will be rotated   
+*/
+
+/* MARGIN,ROUNDED CORNER,BOX-SHADOW AND Z-INDEX
+    *Border-Radius*
+      -property used to add rounded corners to square or rectangular HTML elements
+      -can also be used to control the radius of the corner's curve on both X and Y axis
+      =>*using the :hover pseudo-selector, you can choose what happens when the mouse hovers (enters the area of) over an element*<=
+
+      =>**The parent container must be explicitly set to either
+      position:relative or position:absolute in order to use a child element within it that also uses position:absolute align
+
+    *Margin*
+      -u can use margin:auto to align an element horizontally but its 'display' property has to bes et to 'block'
+      -'margin-top' property can be used to offset an element by a space on its upper-side;same for margin-left,margin-right,margin-bottom
+
+    *Z-Index*
+      -takes a numeric value btwn 0-2147483647 to determine element's drawing order on most common browsers
+      -on safari, maximum z-index value is 16777271
+      -used  to change visibility of an element and make it stand out
+
+    *Box-shadow*
+     -used to add a shadow around a wide element
+     -takes same parameters as 'text-shadow'
+
+    *Note*=> when the width of an element becomes smaller than the width of its text content, text automatically moves to the next available line, even if itexists outside of the element’s boundary*
+
+    *overflow*
+     -*you can effectively cut off the contents outside of the content container by setting overflow:hiddden
+     -by using multiple elements with overflow:hidden its possible to create irregular shape
+*/
+/* DISPLAY
+    *display-inline*
+      -this is the default value used for spa,<b>,<i> and other few HTML tags created for dealing with displaying text inside parent containers with unknown width
+      -long inline elemenst are automatically carried over to the next row
+      -*text inside span elements is always inline by default and cant be centered
+
+  *display-block*
+    -automatically blocks an entire row of space,regardless the width of its contents
+    -this property, with explicitly defined element widths, introduces the idea of discerning between element's container width and its content width
+    -combines inline & blocking behavior to enable custom size for inline elements
+
+  *Visibility*
+   -this property hides the element's box without completely removing it from the drawing hierarchy
+   -visibility of an element is set to visible by default
+   -u can change it by applying the property to hidden,unset,auto or none
+
+  *Floating Elements*
+    -elements with float:left/float:right apppear on the same line as long as the sum of their widths is lesss than the width of the parent element.
+    -if the total sum of two floating elements is greater than the parent's width, one of them will be blocked by the other and skip over to the next row.
+    -u can use clear:both to clear floating elements and start a new floating row
+
+  *Gradients*
+    -need to only master the type and direction in which they flow
+    -4 type; linear-gradient, radial-gradient, repeating-linear-gradient, repeating-radial-gradient
+    -basic idea behind gradients is to interpolate between atleast 2 colors
+
+    *Linear-gradient*
+    -without providing extra values, vertical direction is asssumed;starting from top of the element,gradually blending in with 100% of the second color at the bottom
+    -all gradients are supported by background property
+    -u can start gradients at corners too to create diagonal transitions by setting values like "to top left", "to top right"
+    -when default 45deg corners are not enough, u can supply a custom degree btwn (0-360) directly to linear-gradient property e.g linear-gradient(30deg, black, white);
+    -repeating pattern can be created by using repeating-linear-gradient
+
+    *Radial-gradients*
+     -can be created using the radial-gradient property
+     -can take origin at any of the 4 corners of an HTML element
+     -repeating pattern can be created using  repeating-radial-gradient  
+*/
+
+/*CSS FILTERS
+  =>*ccs flilters modify appearance of an image(or any HTML element that has graphic output of some sorts) by adjusting its color values
+  =>value of filter fuctions/properties can be specified in %,as a number or px
+  
+    *BLUR*
+      -provides a blurry effect to elements 
+      - can be used by using 'filter:blur("strength of blur applied in %,no.,px")'
+      -can aswell work with images that contain trasparent areas to provide visual effects & UI transitions
+    
+    *BRIGHTNESS*
+      -adjusts brightnness of an HTML element or image
+      values are provided in floating point format from 0-1 where 1 is the original image content
+      -values greater than 1 make ur image brighter than its original pixel values
+      -can be used by setting filter:brightness("value)
+    
+    *CONTRAST*
+      -changes contrast of an HTML element/image
+      -level of contrast is specified in %
+      -can be used by setting filter:contrast('%age level of contrast)
+
+    *GRAYSCALE*
+      -desaturates colors by percent value
+      -can be used by setting filter:grayscale('%age value of desaturation');
+
+    *HUE-ROTATE*
+      -changes color hue
+      -values are provided in degrees from 0deg-360deg
+      -can be used by setting filter:hue-rotate('deg value');
+
+    *INVERT*
+      -inverts colors
+      -value provided in %ages
+      -value of 50% creates a gray image
+      -can be used by setting filter:invert('%age value');
+    
+    *SEPIA*
+      -applys sepia tone effect=> an effect that makes something look like an old photograph
+      -can be used by setting filter:sepia('%age value');
+    
+    *DROP-SHADOW*
+      -similar to 'box-shadow' property
+      -can be used by setting filter:drop-shadow('2px 2px 10px blue') and the like
+  */
+    
+  /* BACKGROUND IMAGES
+      =>*can use background: url('location of image')/background-image: url('location of image') to set up a background image*
+      =>*if the element's dimensions are bigger than those of the source image, the image will be repeated within the body of that element-repetitively filling the remainder of the element's sides with the contents of the image.*<=
+      =>*if the image is smaller than the element's dimensions, it will continue to repeat to fill up the remaining space.*<=
+
+     *BACKGROUND SIZE*
+       -has properties unset,none,initial and auto
+       -value of background-size set to 100% will stretch the image in horizontal direction n not vertically
+       -value background size:100% 100% will stretch image across all available space
+       -value background size:cover will stretch image across entire vertical space;will cut off everything in the horizontal direction similar to overflow.
+       -value background size:contain will make sure the image is stretched horizontally across the width of the element,and while remaining original proportion,stretch it vertically for however long it needs to, repeating the image until it overflows at the bottom of the element
+       =>*set background-size:100% 100% to stretch the image*<=
+       =>*combining background-repeat:no-repeat; with background-size:100%, its possible to stretch the image horizontally,across the width of the element*<=
+       =>*'100% 100%' is repeated twice -first value tells CSS to stretch the image vertically, second 100% horizontally*<=
+
+     *BACKGROUND-POSITION*
+       -u can position an image to be in the center by supplying background-position: center
+
+     *BACKGROUND-REPEAT*
+       -u can repeat the image across the x-axis or y-axis by using repeat-x and repeat-y property
+     
+     *MULTIPLE BACKGROUNDS*
+       -u can supply multiple background images to the same HTML element by assigning this: "background: url('image1'),url('image2');
+       -the top most image u want to see is always listed first
+
+     *BACKGROUND-ATTACHMENT*
+      -used to detrmine behaviour of a background image relative to anything
+      =>*fixed backgrounds dont respond to scroll bar
+     
+     *BACKGROUND-ORIGIN*
+       -determines the extent of the area that will be used by the background image based on the CSS Box Model
+       -can originate from the following:content-box,padding-box,border-box
+       -can aswell have background-position-x & background-position-y and can be asssigned any of the following values:left,right,top-right,topleft,center,right-bottom etc
+
+     *OBJECT-FIT*
+       -presents to us with pretty much every single posssible case of how we wish to fit our object into the parent container.
+       -although similar to background property, works with non-background images (created using <img> tag), videos and other "objects" rather than background images
+  */
+
+  /*BORDERS
+      **YOU can easily access all of the same CSS attached to an object via Javascript by grabbing the object with document.getElementById('its value') to gain access to all its CSS properties
+      -borders can be set on all sides at the same time with border property i.e; border: 5px solid gray;
+
+    *BORDER RADIUS*
+      -specify curvature on each of the four corners of the element with 'border-radius'
+      -using a value equal to or greater than the size of an element's side to which the border radius is applied-will be clamped to the greatest radius taht fits in that area
+    
+    *ELLIPTICAL BORDER RADIUS*
+      -elliptical radius is set by specifying two values for each axis on the same corner, separated bt space e.g 'border-top-left-radius: 200px 100px' where the 200px is the radius on the x-axis and the 100px is the radius on the y-axis 
+      -when applying elliptical radius with extremely large values, the curve of one corner can affect the curve of adjacent corners, especially ones with smaller radius
+  */
+
+  /* 2D TRANSFORMS
+      =>*2D transforms can translate,scale or rotate an HTML element*<=
+
+    *TRANSLATE*
+      -instead of using top&left properties, we can use transform:translate(20px,10px) to move the element on its X&Y axis
+      -can aswell use '%' instead of pxto translate transform element's size
+    
+    *ROTATE*
+      -rotates an element around its center using 'rotate(angle). where angle is an angle between 0 and 360 degrees with deg appended
+      =>*possible to translate and rotate an element ie translate(25px 2px) rortate(4deg)<=*
+      =>*relative elements retain their position within the document even after rotation*<=
+      =>*different rotation angles do not offset surrounding elements
+      =>rotating an element between others does nt affect their position, the edges will overlap
+      =this property will rotate the element around its midpoint by default
+    
+    *TRANSFORM-ORIGIN*
+      -changes the  element rotation origin using "transform-origin" property
+      -rotation origin doesnt have to be in the middle or at the corners of the element-it can be anywhere
+  */
+
+  /* 3D TRANSFORMS
+      -3D transforms can transform your regular HTML elements into 3D by adding perspective
+
+      *rotateX,rotateY,rotateZ*
+        -rotates the element on x-axis,y-axis&z-axis using the 'transform:rotateX,rotateY,rotateZ' property
+        -**'perspective-origin'** property is also used to demonstrate the slant when the origin is displaced
+
+      *SCALE*
+        -reduces/increases an elements relative size on any of the 3 axis
+        -scaling on Z-axis does not change the element's appearance when no perspective is set
+        -denoted by using scaleX(n) where n is a number from 0-1
+
+      *TRANSLATE*
+        -scaling an element on Z axis using this property will make it appear closer to the view
+  */
+
+  /* *FLEX*
+        -set of rules for automatically stretching multiple columns and rows of content across parent container
+
+      *DISPLAY-FLEX*
+        =>*to use flex, u need to have a main container and some items nested within it
+        =>some css flex properties are only used on the parent container, others on only the items nested.
+        =>*a flex element is a parent container with 'display:flex' property
+        =>*elements placed inside the parent container are called items 
+        =>*each container has a flext-start and flex-end point*
+        =>*by default, items stretch from left to right
+        =>*origin from where they stretch can be reversed*<=
+      
+      *MAIN-AXIS AND CROSS AXIS*
+        -when using flex, u have to be mindful of the idea of rows&columns
+        -flex has 2 coordinate axis; horizontal axis referred to as main-axis and the vertical, cross-axis
+        =>*to control the behavior of contents width and gaps between that stretch horizontally across Main axis, ull use "justify" properties*<=
+        =>*to control vertical behavior of items, u'll use "align" propertie
+        -flex items are equally distributed on the main-axis
+        =>*the way rows and columns are distributed inside the parent element are by css flex properties;"flex-direction","flex-wrap" n others
+      
+      *DIRECTION*
+        -flex property used to set direction of an item's flow
+        -u can set the direction of the item's flow by reversing them
+        -"flex-direction:row-reverse" property changes direction of the item list flow
+        -default direction is row but thats something that can be reversed
+        -when you specify flex-direction to be column, the items will stretch in a vertical way, the same for row
+
+      *WRAP*
+        -"flex-wrap:wrap" property determines how items are wrapped when parent container runs out of space
+
+      *FLOW*
+        -"flex-flow" is a short hand property for flex-direction and flex-wrap allowing you to specify both of them using just one property name
+        -u can specify "flex-flow:direction(value)flex-wrap(value) or explicitly flex-flow
+        -an example flex-flow:row wrap determines flex-direction to be row and flex-wrap to be wrap
+
+      *JUSTIFY-CONTENT*
+        -its a property used to align items,spacethem,strech and all sorts of other property to the item 
+        -uses ''justify-content:(value)' to be applied
+
+      *ALIGN-ITEMS*
+        -property controls the alignment of items horizontally. relative to the parent container
+
+      *FLEX-BASIS*
+        -property which works similar to 'min-width' outside of flex
+        -expand the item's size based on the size of the inner content
+        
+      *FLEX-GROW*
+        -when applied to an item, it will scale it relative to the sum of the size of all other items on the same row, which are automatically adjusted according to the value that was specified
+
+      *FLEX-SHRINK* 
+        -opposite of the flex-grow property.
+        -will shrink the item by the number of times relative to the size of the rest of the items
+
+      =>**when dealing with individual items, you can use the property 'flex' as a shortcut for 'flex-grow','flex-shrink','flex-basis' using only one property name**<=
+
+      *ORDER*
+        -using the order property, its possible to re-arrange the natural order of items.
+        -item order is sset to 0 by default
+        -denoted by using 'order:0'
+
+      *JUSTIFY-ITEMS*
+        -similar to flex's 'justify-content' property but for CSS grid
+
+  */
+
+  /* CSS-GRID
+      -CSS grid properties are never applied to one element
+      -a grid works as a single-unit, containing of a parent element and items contained within it
+      -a CSS grid flow can go in either direction with its default set to row
+      -*CSS GRID can align items in one of the either direction; rows or columns specifieed by "grid-auto-flow" property
+      -uses column and row templates to choose how many items will be used in the grid down and across
+      -u can specify their number by using properties 'grid-template-rows' and 'grid-template-columns'
+      -if you are to notice clearly, CSS grid right away is the definition of gaps
+      -gaps are defined numerically starting from the upper left corner of the element.
+      -CSS grid doesnt have default padding,border,or margin
+      -items inside the grid are assumed to have 'content-box' by default
+      -CSS grid's gap can be set indviually per row or column when properties "grid-row-gap"& "grid-column-gap" are used=>"grid-gap" can be used as a shorthand for this
+
+      *USING TEMPLATE AREAS*
+        -normally used to split ur layout into areas
+        -denoted by using 'grid-tempate-areas' and providing area names for each row in string forma-*normally work well for creating the primary outer scaffold for your layout
+        -**normally recommended to asssign 'display:flex' to the inner cells**
+
+      *IMPLICIT ROWS AND COLUMNS*
+         -they are automatic placeholders which inherit their width and height from the existing template
+         -they extend the grid area when necessary
+
+      *GRID-AUTO-ROWS*
+        -*grid-auto-rows* property telss CSS grid to use a specific height for automatic(implicitly created) rows
+        -this property can take a value as specified by you
+        -implicit row height is determined by the 'grid-auto-rows' property
+        =>*grid-auto-flow:column/row* property provides u witha flex-like functionality
+        =>*u can make css-grid behave similar to flex by overwriting its "grid-autoflow" propert'ys default value of row to column
+
+      *AUTOMATIC COLUMN CELL WIDTH*
+        -feature that can be attained by providing 'auto'as a value to one of the widths in the 'grid-template-column' property
+        -when used, the grid will span across the entire width of the container or the browser
+
+      *GAPS*
+        -these cover the space between columns and rows
+        -u can use the 'grid-column-gap' property to specify vertical gaps of equal size btwn all columns in ur CSS grid=.same scenario for 'grid-row-gap'
+        =>*using 'grid-gap' property, we can set gaps in both dimensions at the same time
+          =>using 'grid-gap:10px' u can set dimensions in both gaps to the same value
+          =>using the 'grid-gap' property too, u can set gaps individualyy for each of the two dimensions
+          =>*varied gap sizing is not attainable in CSS grids
+
+      *FRACTIONAL UNIT/ fr*
+        -for effeciently sizing remaining space
+        -normally used for creating layouts with unknown screen resolution and still preserve a portion of the remaining space without behaving like %ages
+        -similar to %ages  except represented bya fractional value
+        -values held are calculated relative to the parent container
+        -fr units are relative to themselves within some parent container
+
+      *FRACTIONAL UNITS & GAPS*
+        -Gaps affect fractional units coz everytime anfr-based column is added,we need to subtract aps from remaining space in the element
+
+      *REPEATING VALUES*
+        -denoted by *repeat(times,what)* times to repeat and what to repeat
+        -the way 'grid-template-columns' operates is how this property can be used to achieve the same effect
+
+      *SPAN*
+        -CSS grid span allows u to stretch ur items across multiple rows or columns
+        -used to create multi-column and multi-row items that occupy a ton of space
+
+        *START AND END SPAN*
+          -has "grid-row-start"/ "grid-row-end" properties that can ve used to define the starting & ending point of an item on the grid
+          -can also use "grid-column-start"/"grid-column-end"
+          -using "grid-row-start"/"grid-column-start" on an item, u have the ability to physically move the item within ur grid to another location
+  */
+
+  /* CSS ANIMATTIONS
+      -u can animate any CSS property whose physical position,dimensions,angle,color can be changed
+      -implemented using keyframes
+      -CSS animation keyframes are implemented using the "@keyframes" directive
+      =>**A KeyFrame** is simply the element's state at a single point on an animation timeline
+      -CSS keyframe locations are normally specified in (%)
+      -need to create an animation name in the following format "@keyframe animationName{..}=>which stores all keyframes"
+      -after that, need to create a special class that will define ur animation's duration,direction,repeatability, and easing type=>then link it the same animation name that was used by the @keyframes directive  
+      =>*easing* adds some flavor to ur animation by providing a curve describing relative velocity of ur animation at a particular spot on the timeline
+
+      *ANIMATION*
+        -'animation' is the short-hand to the 8 stand-alone animation properties described
+        -**animation-name**-name of the keyframe specified by the @keyframes directive
+        -*animation-duration*-duration of the animation in milliseconds.
+        -*animation-timing-function*-specifies easing function
+        -*animation-delay*:-moz-submit-invalidadds delay before animation starts playing
+        -*animation-iteration-count*-number of times animation should play
+        -*animation-direction*-plays forwards,backwards or alternate sequence.
+        -*animation-fill-mode*-state of the animation when it isnt playing
+        -*animation-play-state*-specifys whether animation is running or paused
+
+        *ANIMATION-NAME*
+          -animation-name mjust refer to the one specified by the @keyframes directive
+          -denoted by @keyframes animationName{}
+
+        *ANIMATION-DURATION*
+          -can specify the duration of ur animation in either seconds or milliseconds for more precision
+          -3000ms is the same as 3s and 1500ms is the same as 1.5s
+        
+        *ANIMATION-DELAY*
+          -if u dont want ur animation to start right away, u can add a delay
+          -possible to assign a delay in milliseconds, before animation starts playing
+
+        *ANIMATION-DIRECTION*
+          -u can assign any of the four values to the animation-direction property
+          -values are normal,reverse,alternate&alternate-reverse
+
+        =>**CSS animation engine will automatically interpolate between frames**<=
+        =>**AN interpolated animation state is simply a state between any two frames
+
+      *ANIMATION-ITERATION-COUNT*
+        -number of times animation will be repeated
+        -by default it will play only once
+
+      *ANIMATION-TIMING-FUNCTION*
+        -Easing is specified using the 'animation-timing-function' property
+        -adds personality to ur animation.
+        -done by adjusting velocity of the animation at any given point on the same line
+        -start,middle&end points are normally the points of interest
+        -each easing type is defined by a bezier curve function
+        -because easing is determined by anequation, you can supply your own arguments to create unique curves to achieve a particular velocity not available by predefined values
+        -an example to illustrate an eqn is such: 'animation-timing-function: cubic-bezier(0.25, 0.1, 0.25,1)
+
+      *ANIMATION-FILL-MODE*
+        -when an animation is not currently playing, its set to fiil-mode
+        -animation-fill-mode fills a non-playing animation with a chosen set of properties, usually taken from first or last keyframes 
+        -possible values attached to this property are none,forwards,backwards&both
+
+        *none*=>does not apply any styles to the animated element before or after animation is executing
+        *forwards*=>retains styles from the last-keyframe(this property can be affected by animation-direction and animation-iteration-count)
+        *backwards*=.gets styles from the first keyframe (can be affected by animation-direction) and animation-delay state
+        *both*=>extends animation properties in both directions (forwards & backwards)
+
+        *ANIMATION-PLAY-STATE*
+          -specifies whether animation is running or paused
+          -normally expressed by 2 values;'paused' & 'running'
+
+        
+
+
+   */
+  
